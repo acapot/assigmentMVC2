@@ -1,0 +1,13 @@
+﻿@model List<Person>
+<div class="row">
+    <div class="col-1">Id</div>
+    <div class="col-3">Name</div>
+    <div class="col-3">City</div>
+    <div class="col-3">Phone Number</div>
+    <div class="col-1"></div>
+    <div class="col-1"></div>
+</div>
+@foreach (Person person in Model)
+{
+    <partial name="_AjaxPersonRow" model="person"></partial>
+}
