@@ -9,9 +9,10 @@ namespace assigmentMVC2.Controllers
     public class PeopleController : Controller
     {
         IPeopleService _peopleService;
-        public PeopleController()
+        public PeopleController(IPeopleService peopleService)
         {
-            _peopleService = new PeopleService(new PeopleRepo());
+            // _peopleService = new PeopleService(new PeopleRepo());
+            _peopleService = peopleService;
         }
 
         public IActionResult Index()

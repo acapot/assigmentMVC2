@@ -1,10 +1,12 @@
-﻿namespace assigmentMVC2.Models.Repos
+﻿using assigmentMVC2.Data;
+
+namespace assigmentMVC2.Models.Repos
 {
     public class PeopleRepo : IPeopleRepo
     {
         static int idCounter = 0;
         static List<Person> peopleList = new List<Person>();
-        
+
         public Person Create(Person person)
         {
             person.Id = ++idCounter;
@@ -15,7 +17,7 @@
         public Person Create(string name, string phoneNumber, string city)
         {
             Person person = new Person(name, phoneNumber, city);
-            person.Id = ++idCounter;            
+            person.Id = ++idCounter;
             peopleList.Add(person);
             return person;
         }
@@ -29,7 +31,7 @@
                 peopleList.Add(new Person() { Id = ++idCounter, PersonName = "Yino", City = "Stockholm", PhoneNumber = "90065888" });
 
             }
-            
+
             return peopleList;
         }
 
@@ -70,7 +72,7 @@
             }
 
             return false;
-        }      
+        }
 
         public bool Delete(Person person)
         {
