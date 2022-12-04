@@ -2,7 +2,8 @@
 
 namespace assigmentMVC2.Models.Repos
 {
-    public class PeopleRepo : IPeopleRepo
+    //public class PeopleRepo : IPeopleRepo
+    public class PeopleRepo
     {
         static int idCounter = 0;
         static List<Person> peopleList = new List<Person>();
@@ -14,7 +15,7 @@ namespace assigmentMVC2.Models.Repos
             return person;
         }
 
-        public Person Create(string name, string phoneNumber, string city)
+        public Person Create(string name, string phoneNumber, City city)
         {
             Person person = new Person(name, phoneNumber, city);
             person.Id = ++idCounter;
@@ -24,17 +25,17 @@ namespace assigmentMVC2.Models.Repos
 
         public List<Person> GetAll()
         {
-            if (idCounter == 0)
+           /* if (idCounter == 0)
             {
                 peopleList.Add(new Person() { Id = ++idCounter, PersonName = "Ken", City = "Stockholm", PhoneNumber = "70065982" });
                 peopleList.Add(new Person() { Id = ++idCounter, PersonName = "Nino", City = "Stockholm", PhoneNumber = "80068255" });
                 peopleList.Add(new Person() { Id = ++idCounter, PersonName = "Yino", City = "Stockholm", PhoneNumber = "90065888" });
 
-            }
+            }*/
 
             return peopleList;
         }
-
+/*
         public List<Person> GetByCities(string cities)
         {
             List<Person> personCities = new List<Person>();
@@ -46,7 +47,7 @@ namespace assigmentMVC2.Models.Repos
                 }
             }
             return personCities;
-        }
+        }*/
         public Person GetById(int id)
         {
             Person person = null;
@@ -67,7 +68,7 @@ namespace assigmentMVC2.Models.Repos
             if (orginalPerson != null)
             {
                 orginalPerson.PersonName = person.PersonName;
-                orginalPerson.City = person.City;
+                orginalPerson.CityId = person.CityId;
                 return true;
             }
 

@@ -6,16 +6,20 @@ namespace assigmentMVC2.Models.Services
     public class PeopleService : IPeopleService
     {
         IPeopleRepo _peopleRepo;
-        public PeopleService(IPeopleRepo peopleRepo)
+        ICityRepo _cityRepo;
+        public PeopleService(IPeopleRepo peopleRepo, ICityRepo cityRepo)
         {
             _peopleRepo = peopleRepo;
+            _cityRepo = cityRepo;   
         }
-        public Person Create(CreatePersonViewModel createPerson)
+        public Person Create(PersonView createPerson)
         {
-            if (string.IsNullOrWhiteSpace(createPerson.PersonName) || string.IsNullOrWhiteSpace(createPerson.City) || string.IsNullOrWhiteSpace(createPerson.PhoneNumber))
-            { throw new ArgumentException("PersonName, City allowed whitespace"); }
+            if (string.IsNullOrWhiteSpace(createPerson.PersonName)  || string.IsNullOrWhiteSpace(createPerson.PhoneNumber))
+            { throw new ArgumentException("PersonName, City not allowed whitespace"); }
 
-            Person person = new Person() { PersonName = createPerson.PersonName, City = createPerson.City, PhoneNumber = createPerson.PhoneNumber};
+            Person person = new Person() { PersonName = createPerson.PersonName, 
+                City = _cityRepo.GetById(createPerson.CityCode), 
+                PhoneNumber = createPerson.PhoneNumber};
             person = _peopleRepo.Create(person);
             return person;
         }
@@ -34,15 +38,14 @@ namespace assigmentMVC2.Models.Services
         }
 
 
-        public bool Edit(int id, CreatePersonViewModel editPerson)
+        public bool Edit(int id, PersonView editPerson)
         {
             Person orginalPerson = FindById(id);
             if (orginalPerson != null)
-            {
-               
+            {               
                 orginalPerson.PersonName = editPerson.PersonName;
                 orginalPerson.PhoneNumber = editPerson.PhoneNumber;
-                orginalPerson.City = editPerson.City;
+                orginalPerson.City = _cityRepo.GetById(editPerson.CityCode);
             }
             return _peopleRepo.Update(orginalPerson);
             // return _peopleRepo.Update(person);
@@ -66,18 +69,19 @@ namespace assigmentMVC2.Models.Services
             return people.Last();
         }
 
-        public Person Add(CreatePersonViewModel createPerson)
+        
+
+        /*public Person Add(PersonView createPerson)
         {
             Person person = _peopleRepo.Create(createPerson.PersonName, createPerson.PhoneNumber, createPerson.City);
             if (string.IsNullOrWhiteSpace(createPerson.PersonName)
-                || string.IsNullOrWhiteSpace(createPerson.PhoneNumber)
-                || string.IsNullOrWhiteSpace(createPerson.City))
+                || string.IsNullOrWhiteSpace(createPerson.PhoneNumber))
             {
-                throw new ArgumentException("Name,PhoneNumber or City, not be consist of backspace(s)/whitespace(s)");
+                throw new ArgumentException("Name or PhoneNumber, not be consist of backspace(s)/whitespace(s)");
             }
 
             return person;
-        }
+        }*/
 
     }
 }

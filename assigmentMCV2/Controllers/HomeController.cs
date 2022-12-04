@@ -8,15 +8,16 @@ namespace assigmentMVC2.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IPeopleService _peopleService;
+        //private readonly IPeopleService _peopleService;
         public HomeController()
         {
-            _peopleService = new PeopleService(new PeopleRepo());
+            //_peopleService = new PeopleService(new PeopleRepo());
         }
 
         public IActionResult Index()
         {
-            return View(_peopleService.LastAdded());
+            //return View(_peopleService.LastAdded());
+            return View();
         }
 
         public IActionResult Privacy()

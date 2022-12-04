@@ -4,29 +4,29 @@ namespace assigmentMVC2.Models.Repos
 {
     public class DatabasePeopleRepo : IPeopleRepo
     {
-        public PeopleDbContext _peopleDbContext;
+        public AppDbContext _appDbContext;
 
-        public DatabasePeopleRepo(PeopleDbContext peopleDbContext)
+        public DatabasePeopleRepo(AppDbContext peopleDbContext)
         {
-            _peopleDbContext = peopleDbContext;
+            _appDbContext = peopleDbContext;
         }
 
         public Person Create(Person person)
          {
             //person.Id = ++idCounter;
             //peopleList.Add(person)
-            _peopleDbContext.Add(person);
-            _peopleDbContext.SaveChanges();
+            _appDbContext.Add(person);
+            _appDbContext.SaveChanges();
             return person;
         }
 
-        public Person Create(string name, string phoneNumber, string city)
+        public Person Create(string name, string phoneNumber, City city)
         {
             Person person = new Person(name, phoneNumber, city);
             //person.Id = ++idCounter;            
             //peopleList.Add(person);
-            _peopleDbContext.Add(person);
-            _peopleDbContext.SaveChanges();
+            _appDbContext.Add(person);
+            _appDbContext.SaveChanges();
             return person;
         }
 
@@ -40,7 +40,7 @@ namespace assigmentMVC2.Models.Repos
 
              }*/
             List<Person> peopleList = new List<Person>();
-            peopleList = _peopleDbContext.People.ToList();
+            peopleList = _appDbContext.People.ToList();
             return peopleList;
         }
 
@@ -55,7 +55,7 @@ namespace assigmentMVC2.Models.Repos
                     personCities.Add(aPerson);
                 }
             }*/
-            return _peopleDbContext.People.Where(p => p.City.Contains(cities)).ToList();
+            return _appDbContext.People.Where(p => p.City.Name.Contains(cities)).ToList();
         }
         public Person GetById(int id)
         {
@@ -69,18 +69,18 @@ namespace assigmentMVC2.Models.Repos
                     break;
                 }
             }*/
-            return _peopleDbContext.People.SingleOrDefault(p => p.Id == id);
+            return _appDbContext.People.SingleOrDefault(p => p.Id == id);
         }
 
         public bool Update(Person person)
         {
-            Person orginalPerson = GetById(person.Id);
-            if (orginalPerson != null)
+            Person originalPerson = GetById(person.Id);
+            if (originalPerson != null)
             {
-                orginalPerson.PersonName = person.PersonName;
-                orginalPerson.City = person.City;
-                _peopleDbContext.Update(orginalPerson);
-                _peopleDbContext.SaveChanges();
+                originalPerson.PersonName = person.PersonName;
+                originalPerson.CityId = person.CityId;
+                _appDbContext.Update(originalPerson);
+                _appDbContext.SaveChanges();
                 return true;
             }
 
@@ -92,8 +92,8 @@ namespace assigmentMVC2.Models.Repos
             //return peopleList.Remove(person);
             if (person != null)
             {
-                _peopleDbContext.Remove(person);
-                _peopleDbContext.SaveChanges();
+                _appDbContext.Remove(person);
+                _appDbContext.SaveChanges();
                 return true;
             }          
 

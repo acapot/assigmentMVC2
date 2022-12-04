@@ -3,7 +3,7 @@
 <div class="row pt-2">
     <div class="col-1">@Model.Id</div>
     <div class="col-3">@Model.PersonName</div>
-    <div class="col-3">@Model.City</div>
+    <div class="col-3">@Model.City.Name</div>
     <div class="col-2">@Model.PhoneNumber</div>
     <div class="col-1"><a asp-action="Details" asp-controller="People" asp-route-id="@Model.Id" class="btn btn-success"><i class="bi bi-eye-fill"></i></a></div>
     <div class="col-1"><a asp-action="Edit" asp-controller="People" asp-route-id="@Model.Id" class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a></div>

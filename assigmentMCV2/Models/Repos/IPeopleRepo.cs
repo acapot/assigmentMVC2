@@ -7,7 +7,7 @@
         // C
 
         Person Create(Person person);
-        Person Create(string name, string phoneNumber, string city);
+        Person Create(string name, string phoneNumber, City city);
         // R
         List<Person> GetAll();
         List<Person> GetByCities(string cities);

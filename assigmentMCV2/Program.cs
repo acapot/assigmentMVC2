@@ -8,12 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 //AC
-builder.Services.AddDbContext<PeopleDbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 //builder.Services.AddScoped<IPeopleRepo, PeopleRepo>();
 builder.Services.AddScoped<IPeopleRepo, DatabasePeopleRepo>();
 builder.Services.AddScoped<IPeopleService, PeopleService>();
+builder.Services.AddScoped<ICityRepo, CityRepo>();
+builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<ICountryRepo, CountryRepo>();
+builder.Services.AddScoped<ICountryService, CountryService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();

@@ -8,12 +8,12 @@ namespace assigmentMVC2.Models
         [Key]
         public int Id { get; set; }
         public string? PersonName { get; set; }
-        public string? City { get; set; }
+        public int CityId { get; set; }
+        public City? City { get; set; }
         public string? PhoneNumber { get; set; }
 
-        public Person(string? personName, string? phoneNumber, string? city)
+        public Person(string? personName, string? phoneNumber, City? city)
         {
-
             PersonName = personName;
             PhoneNumber = phoneNumber;
             City = city;

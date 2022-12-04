@@ -23,12 +23,12 @@ namespace assigmentMVC2.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View(new CreatePersonViewModel());
+            return View(new PersonView());
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(CreatePersonViewModel createPerson)
+        public IActionResult Create(PersonView createPerson)
         {
             if (ModelState.IsValid)
             {
@@ -93,11 +93,11 @@ namespace assigmentMVC2.Controllers
                 return RedirectToAction(nameof(Index));
                 //return NotFound();//404
             }
-            CreatePersonViewModel editPerson = new CreatePersonViewModel()
+            PersonView editPerson = new PersonView()
             {
                 PersonName = person.PersonName,
                 PhoneNumber = person.PhoneNumber,
-                City = person.City
+                CityCode = person.CityId
             };
 
             return View(editPerson);
@@ -105,7 +105,7 @@ namespace assigmentMVC2.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Edit(int id, CreatePersonViewModel editPerson)
+        public IActionResult Edit(int id, PersonView editPerson)
         {
 
             if (ModelState.IsValid)
@@ -114,7 +114,7 @@ namespace assigmentMVC2.Controllers
                 return RedirectToAction(nameof(Index));
                 //return NotFound();//404
             }
-            _peopleService.Add(editPerson);
+
             return View(editPerson);
         }
 
