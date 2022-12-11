@@ -1,4 +1,5 @@
-﻿@model assigmentMVC2.Models.Person
+﻿@using assigmentMVC2.Models.ViewModels
+@model PersonView
 
 @{
     ViewData["Title"] = "Delete";
@@ -24,11 +25,14 @@
             @Html.DisplayFor(model => model.PersonName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CityId)
+            @Html.DisplayNameFor(model => model.City)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CityId)
+            @Html.DisplayFor(model => model.City)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>

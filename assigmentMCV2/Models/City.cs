@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace assigmentMVC2.Models
 {
@@ -10,9 +12,11 @@ namespace assigmentMVC2.Models
         public string? Name { get; set; }
 
         public int CountryId { get; set; }
+        
+        
         [Required]
         public Country? Country { get; set; }
-        public List<Person>? Persons { get; set; }
+        public List<Person> Persons { get; set; }
 
         public City(string? name)
         {

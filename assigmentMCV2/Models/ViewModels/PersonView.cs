@@ -1,33 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace assigmentMVC2.Models.ViewModels
 {
+    [BindProperties(SupportsGet = true)]
     public class PersonView
     {
-        [Display(Name = "Person")]
-        [Required]
+        public int Id { get; set; }
         public string? PersonName { get; set; }
         public string? PhoneNumber { get; set; }
-        public int CityCode { get; set; }
-
-        [Required]
-        [Display(Name = "Country")]
-        public IEnumerable<SelectListItem> Countries { get; set; }
-
-        [Required]
-        [Display(Name = "City")]
-        public IEnumerable<SelectListItem> Cities { get; set; }
-
-        /*public List<string> CitiesList
-        {
-            get
-            {
-                return new List<string>
-
-                { "Stockholm", "Växjö", "Göteborg","Linköping","Jönköping","Alvesta" };
-            }
-        }*/
+        public string City { get; set; } = "";
+        public string Country { get; set; } = "";
+        [ValidateNever]
+        public int CityId { get; set; }
     }
 }

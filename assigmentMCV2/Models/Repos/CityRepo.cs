@@ -33,7 +33,7 @@ namespace assigmentMVC2.Models.Repos
         {
             
             List<City> cityList = new List<City>();
-            cityList = _appDbContext.Cities.ToList();
+            cityList = _appDbContext.Cities!.ToList();
             return cityList;
         }
 

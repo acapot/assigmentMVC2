@@ -1,4 +1,5 @@
 ﻿using assigmentMVC2.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace assigmentMVC2.Models.Repos
 {
@@ -40,7 +41,10 @@ namespace assigmentMVC2.Models.Repos
 
              }*/
             List<Person> peopleList = new List<Person>();
-            peopleList = _appDbContext.People.ToList();
+            peopleList = _appDbContext.People!
+                .Include(p => p.City)
+                .ThenInclude(c => c.Country)
+                .ToList();
             return peopleList;
         }
 
@@ -69,12 +73,15 @@ namespace assigmentMVC2.Models.Repos
                     break;
                 }
             }*/
-            return _appDbContext.People.SingleOrDefault(p => p.Id == id);
+            return _appDbContext.People!
+                .Include(p => p.City)
+                .ThenInclude(c => c!.Country)
+                .SingleOrDefault(p => p.Id == id);
         }
 
         public bool Update(Person person)
         {
-            Person originalPerson = GetById(person.Id);
+            /*Person originalPerson = GetById(person.Id);
             if (originalPerson != null)
             {
                 originalPerson.PersonName = person.PersonName;
@@ -82,9 +89,11 @@ namespace assigmentMVC2.Models.Repos
                 _appDbContext.Update(originalPerson);
                 _appDbContext.SaveChanges();
                 return true;
-            }
+            }*/
 
-            return false;
+            var result = _appDbContext.People!.Update(person);
+
+            return _appDbContext.SaveChanges() > 0;
         }
 
         public bool Delete(Person person)

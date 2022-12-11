@@ -1,5 +1,6 @@
 ﻿using assigmentMVC2.Models.Repos;
 using assigmentMVC2.Models.ViewModels;
+using System.Xml.Linq;
 
 namespace assigmentMVC2.Models.Services
 {
@@ -12,25 +13,58 @@ namespace assigmentMVC2.Models.Services
             _peopleRepo = peopleRepo;
             _cityRepo = cityRepo;   
         }
-        public Person Create(PersonView createPerson)
+        public PersonView Create(CreatePersonView createPerson)
         {
+            PersonView pv = new PersonView();
+
             if (string.IsNullOrWhiteSpace(createPerson.PersonName)  || string.IsNullOrWhiteSpace(createPerson.PhoneNumber))
             { throw new ArgumentException("PersonName, City not allowed whitespace"); }
 
             Person person = new Person() { PersonName = createPerson.PersonName, 
-                City = _cityRepo.GetById(createPerson.CityCode), 
+                City = _cityRepo.GetById(createPerson.CityId), 
                 PhoneNumber = createPerson.PhoneNumber};
             person = _peopleRepo.Create(person);
-            return person;
+
+
+            pv.Id = person.Id;
+            pv.PersonName = person.PersonName;
+            pv.PhoneNumber = person.PhoneNumber;
+            pv.City = person.City?.Name!;
+            pv.Country = person.City?.Country?.Name!;            
+
+            return pv;
         }
 
-        public Person FindById(int id)
+        public PersonView FindById(int id)
         {
-            return _peopleRepo.GetById(id);
+            var p = _peopleRepo.GetById(id);
+
+            if (p == null)
+            {
+                return null;
+            }
+
+            return new PersonView
+            {
+                Id = p.Id,
+                PersonName = p.PersonName,
+                PhoneNumber = p.PhoneNumber,
+                City = p.City?.Name!,
+                Country = p.City?.Country?.Name!,
+                CityId = p.CityId
+            };
         }
-        public List<Person> GetAll()
+        public List<PersonView> GetAll()
         {
-            return _peopleRepo.GetAll();
+            return _peopleRepo.GetAll().Select(p => new PersonView
+            {
+                Id = p.Id,
+                PersonName = p.PersonName,
+                PhoneNumber = p.PhoneNumber,
+                City = p.City?.Name!,
+                Country = p.City?.Country?.Name!
+            }).ToList();
+            //return _peopleRepo.GetAll();
         }
         public List<Person> FindByCities(string cities)
         {
@@ -38,14 +72,14 @@ namespace assigmentMVC2.Models.Services
         }
 
 
-        public bool Edit(int id, PersonView editPerson)
+        public bool Edit(int id, CreatePersonView editPerson)
         {
-            Person orginalPerson = FindById(id);
+            Person orginalPerson = _peopleRepo.GetById(id);
             if (orginalPerson != null)
             {               
                 orginalPerson.PersonName = editPerson.PersonName;
                 orginalPerson.PhoneNumber = editPerson.PhoneNumber;
-                orginalPerson.City = _cityRepo.GetById(editPerson.CityCode);
+                orginalPerson.City = _cityRepo.GetById(editPerson.CityId);
             }
             return _peopleRepo.Update(orginalPerson);
             // return _peopleRepo.Update(person);
@@ -59,7 +93,7 @@ namespace assigmentMVC2.Models.Services
             return success;
 
         }
-        public Person? LastAdded()
+       /* public Person? LastAdded()
         {
             List<Person> people = _peopleRepo.GetAll();
             if (people.Count < 1)// try with == 0
@@ -67,7 +101,7 @@ namespace assigmentMVC2.Models.Services
                 return null;
             }
             return people.Last();
-        }
+        }*/
 
         
 

@@ -1,4 +1,5 @@
-﻿@model Person
+﻿@using assigmentMVC2.Models.ViewModels
+@model PersonView
 @{
     ViewData["Title"] = "Person Details";
 }
@@ -10,7 +11,10 @@
     <dd>@Model.PersonName</dd>
 
     <dt>City</dt>
-    <dd>@Model.City.Name</dd>
+    <dd>@Model.City</dd>
+
+    <dt>Country</dt>
+    <dd>@Model.Country</dd>
 
     <dt>Phone Number</dt>
     <dd>@Model.PhoneNumber</dd>

@@ -25,7 +25,9 @@ namespace assigmentMVC2.Models.Repos
         {
             
             List<Country> countryList = new List<Country>();
-            countryList = _appDbContext.Countries.ToList();
+            countryList = _appDbContext.Countries!
+                .Include(c => c.Cities)
+                .ToList();
             return countryList;
         }
 

@@ -24,9 +24,15 @@ namespace assigmentMVC2.Models.Services
         {
             return _countriesRepo.GetById(id);
         }
-        public List<Country> GetAll()
+        public List<CountryView> GetAll()
         {
-            return _countriesRepo.GetAll();
+            return _countriesRepo.GetAll()
+                .Select(c => new CountryView
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Cities = c.Cities!.ToList()
+            }).ToList();
         }
         /*public List<Country> FindByCities(string countries)
         {

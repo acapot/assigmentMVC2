@@ -3,32 +3,43 @@ using assigmentMVC2.Models.Repos;
 using assigmentMVC2.Models.Services;
 using assigmentMVC2.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace assigmentMVC2.Controllers
 {
     public class PeopleController : Controller
     {
         IPeopleService _peopleService;
-        public PeopleController(IPeopleService peopleService)
+        ICityService _cityService;
+        ICountryService _countryService;
+        public PeopleController(IPeopleService peopleService, ICityService cityService, ICountryService countryService)
         {
             // _peopleService = new PeopleService(new PeopleRepo());
             _peopleService = peopleService;
+            _countryService = countryService;
+            _cityService = cityService;
+
         }
 
         public IActionResult Index()
         {
-            return View(_peopleService.GetAll());
+            List<PersonView> people = _peopleService.GetAll();
+            return View(people);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View(new PersonView());
+            CreatePersonView pv = new CreatePersonView();
+            pv.Countries = _countryService.GetAll();
+
+
+            return View(pv);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Create(PersonView createPerson)
+        public IActionResult Create(CreatePersonView createPerson)
         {
             if (ModelState.IsValid)
             {
@@ -49,7 +60,7 @@ namespace assigmentMVC2.Controllers
         }
         public IActionResult Details(int id)
         {
-            Person person = _peopleService.FindById(id);
+            PersonView person = _peopleService.FindById(id);
             if (person == null)
             {
                 return RedirectToAction(nameof(Index));
@@ -60,7 +71,7 @@ namespace assigmentMVC2.Controllers
         //remove item from Delete View        
         public IActionResult Delete(int id)
         {
-            Person person = _peopleService.FindById(id);
+            PersonView person = _peopleService.FindById(id);
             //_peopleService.Remove(id);
             if (person == null)
             {
@@ -78,7 +89,7 @@ namespace assigmentMVC2.Controllers
         //Only to go to delete view
         public IActionResult DeleteView(int id)
         {
-            Person person = _peopleService.FindById(id);
+            PersonView person = _peopleService.FindById(id);
             return View("~/Views/People/Delete.cshtml", person);
         }
 
@@ -86,36 +97,39 @@ namespace assigmentMVC2.Controllers
         [AutoValidateAntiforgeryToken]
         public IActionResult Edit(int id)
         {
-            Person person = _peopleService.FindById(id);
+            PersonView person = _peopleService.FindById(id);
 
             if (person == null)
             {
                 return RedirectToAction(nameof(Index));
                 //return NotFound();//404
             }
-            PersonView editPerson = new PersonView()
+            CreatePersonView editPerson = new CreatePersonView()
             {
                 PersonName = person.PersonName,
                 PhoneNumber = person.PhoneNumber,
-                CityCode = person.CityId
+                CityId = person.CityId!
+                //CityName = _cityService.FindById(person.CityId).Name
             };
+
+            editPerson.Countries = _countryService.GetAll();
 
             return View(editPerson);
         }
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public IActionResult Edit(int id, PersonView editPerson)
+        public IActionResult Edit(int id, CreatePersonView createPerson)
         {
 
             if (ModelState.IsValid)
             {
-                _peopleService.Edit(id, editPerson);
+                _peopleService.Edit(id, createPerson);
                 return RedirectToAction(nameof(Index));
                 //return NotFound();//404
             }
 
-            return View(editPerson);
+            return View(createPerson);
         }
 
 
@@ -128,7 +142,7 @@ namespace assigmentMVC2.Controllers
         [HttpPost]
         public IActionResult AjaxPartialViewDetails(int id)
         {
-            Person person = _peopleService.FindById(id);
+            PersonView person = _peopleService.FindById(id);
             if (person != null)
             {
                 return PartialView("_AjaxPersonDetails", person);
@@ -137,7 +151,7 @@ namespace assigmentMVC2.Controllers
         }
         public IActionResult AjaxDelete(int id)
         {
-            Person person = _peopleService.FindById(id);
+            PersonView person = _peopleService.FindById(id);
             if (_peopleService.Remove(id))
             {
                 return PartialView("_AjaxPersonList", _peopleService.GetAll());
@@ -147,7 +161,7 @@ namespace assigmentMVC2.Controllers
 
 
         //*********************************************
-        public IActionResult LastPersonArrivel()
+        /*public IActionResult LastPersonArrivel()
         {
             Person person = _peopleService.LastAdded();
             if (person != null)
@@ -176,7 +190,7 @@ namespace assigmentMVC2.Controllers
             }
             return BadRequest();
 
-        }
+        }*/
 
     }
 }
