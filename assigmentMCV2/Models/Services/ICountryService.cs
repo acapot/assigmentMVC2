@@ -5,12 +5,12 @@ namespace assigmentMVC2.Models.Services
 {
     public interface ICountryService
     {
-        Country Create(CountryView country);
+        CountryView Create(CreateCountryView country);
         List<CountryView> GetAll();
-        //List<Country> FindByCities(string cities);
-        Country FindById(int id);
-        bool Edit(int id, CountryView editCountry);
         bool Remove(int id);
+        public CountryView? FindById(int id);
+        public CountryView Edit(int id);
+        public bool Update(int id, CreateCountryView countryView);
     }
    
 }

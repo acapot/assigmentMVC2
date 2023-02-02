@@ -1,0 +1,95 @@
+﻿@using assigmentMVC2.Models.ViewModels
+@model CreateCountryView
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>CreateCountryViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            @*<div asp-validation-summary="All"></div>*@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group" id="cityPlus">
+                <label name="Cities[]" class="control-label">Cities</label>
+                @*<input asp-for="Cities" class="form-control" />*@
+                <input name="Cities[]" class="form-control" /><i id="btn1" class=" bi bi-plus-circle-fill">Add more Cities</i>
+                
+                <span asp-validation-for="Cities" class="text-danger"></span>
+            </div>
+            <div class="form-group pt-2">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#btn1").click(function () {
+            $("#cityPlus").append('<input name="Cities[]" class="form-control" />');
+            console.log("click2")
+
+        });
+
+    });
+</script>
+
+@*
+@model CreateCountryView
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/css/add-country.css" asp-append-version="true" />
+}
+
+
+<h1 class="text-center py-4">Add Country</h1>
+
+<div>
+    <form id="city-form" onsubmit="addCity(event)" ></form>
+    <form method="post" id="form">
+        <div class="row py-3">
+            <label asp-for="Name" class="col-12 col-md-3 col-lg-2"></label>
+            <div class="col-12 col-md-8 col-lg-9">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+            
+
+            <div class="row">
+                <label class="col-12 col-md-3 col-lg-2">City</label>
+                <div class="col-8 col-md-4 col-lg-6">
+                    <input id="city-input" class="form-control" form="city-form" name="city" />
+                </div>
+                <button id="add-city-btn" form="city-form" type="submit" class="btn btn-outline-primary col-3 col-md-2 col-lg-2">Add</button>
+            </div>
+
+        @Html.ValidationMessage("citiesNames",new {@class="text-danger"})
+        <div id="cities" class="row">
+            
+        </div>
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-success">Add Country</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/js/add-country.js" asp-append-version="true"></script>
+}*@

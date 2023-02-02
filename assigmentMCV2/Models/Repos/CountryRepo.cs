@@ -31,8 +31,10 @@ namespace assigmentMVC2.Models.Repos
             return countryList;
         }
 
-     
-        public Country GetById(int id)
+
+
+
+        public Country? GetById(int id)
         {
             //Country country = null;
             /*Country country = _appDbContext.Country.Where(p => p.Id == id);
@@ -44,7 +46,8 @@ namespace assigmentMVC2.Models.Repos
                     break;
                 }
             }*/
-            return _appDbContext.Countries.SingleOrDefault(p => p.Id == id);
+            return _appDbContext.Countries!.Find(id);
+            //return _appDbContext.Countries.SingleOrDefault(p => p.Id == id);
         }
 
         public bool Update(Country country)

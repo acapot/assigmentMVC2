@@ -1,0 +1,53 @@
+﻿@model List<CountryView>
+@{
+    ViewData["Title"] = "Countries";
+}
+
+
+<div class="row">
+    <div class="col-6">
+        <h1>Countries List</h1>
+    </div>
+    <div class ="col-6 text-end">
+        <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i>&nbsp; Add a Country to the List</a>
+    </div>
+    
+</div>
+
+
+<div class="row">
+    <div class="col-2">Id</div>
+    <div class="col-4">Name</div>
+    <div class="col-3">Number of Cities</div>
+    <div class="col-1"></div>
+    <div class="col-1"></div>
+    <div class="col-1"></div>
+</div>
+@foreach (CountryView country in Model)
+{
+    <partial name="_CountryRow" model="country"></partial>
+}
+
+
+@*
+
+<h1 class="text-center py-4">Countries</h1>
+
+<div class="container">
+    <a asp-controller="Countries" asp-action="Create" class="btn btn-outline-success">Add country</a>
+</div>
+
+<div class="container" id="countries">
+    <partial name="_countriesTable" model="@Model" />
+</div>
+
+
+@section Scripts {
+    <script src="~/js/countries-list.js" asp-append-version="true"></script>
+}
+
+*@
+
+
+
+

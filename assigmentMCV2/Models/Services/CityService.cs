@@ -1,4 +1,5 @@
-﻿using assigmentMVC2.Models.Repos;
+﻿using assigmentMVC2.Data;
+using assigmentMVC2.Models.Repos;
 using assigmentMVC2.Models.ViewModels;
 
 namespace assigmentMVC2.Models.Services
@@ -53,7 +54,15 @@ namespace assigmentMVC2.Models.Services
             return success;
 
         }
-   
+
+        public List<City>? GetAllCitiesByCountryId(int id)
+        {
+
+            List<City>? cityList = _citiesRepo.GetAllCitiesByCountryId(id);
+            return cityList;
+        }
+
+
 
     }
 }

@@ -11,5 +11,7 @@ namespace assigmentMVC2.Models.Services
         City FindById(int id);
         bool Edit(int id, CityView editCity);
         bool Remove(int id);
+
+        List<City>? GetAllCitiesByCountryId(int id);
     }
 }

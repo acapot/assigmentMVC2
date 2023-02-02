@@ -21,5 +21,6 @@ namespace assigmentMVC2.Models.Repos
 
         // D
         bool Delete(City city);
+        List<City>? GetAllCitiesByCountryId(int id);
     }
 }

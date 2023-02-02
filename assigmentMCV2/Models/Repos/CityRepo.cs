@@ -37,7 +37,15 @@ namespace assigmentMVC2.Models.Repos
             return cityList;
         }
 
-     
+
+        public List<City>? GetAllCitiesByCountryId(int id)
+        {
+
+            List<City> cityList = new List<City>();
+            cityList = _appDbContext.Cities!.Where(c=>c.Id == id).ToList();
+            return cityList;
+        }
+
         public City GetById(int id)
         {
             //City city = null;
